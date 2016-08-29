@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>Countdown</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span6">
+            <span class="label badge-success">当前时间为:&nbsp;<span id="current-time"></span></span>
+        </div>
+        <div class="span6">
+            <span class="label badge-inverse">您还剩余:&nbsp;<span id="timer"></span></span>
+            <h4>Tip:时间用完之后，会出现模态框</h4>
+        </div>
+    </div>
+</div>
+<div id="myEnd" class="modal hide">
+    <div class="modal-header">
+        <button data-dismiss="modal" class="close" type="button">×</button>
+        <h3>警告</h3>
+    </div>
+    <div class="modal-body">
+        <p>您的时间已经用完</p>
+    </div>
+    <div class="modal-footer">
+        <a data-dismiss="modal" class="btn btn-success" href="#">确定</a>
+    </div>
+</div>
+
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    var time = 10*1000;//计算出毫秒数
+    var se;
+        //调用setInterval控制
+
+    se = setInterval('t_time()',1000);
+    function t_time() {
+        //倒计时
+        var mm = parseInt(time/60/1000%60,10);//剩余的分钟数
+        var ss = parseInt(time/1000%60,10);//剩余的秒数
+        mm = checkTime(mm);
+        ss = checkTime(ss);
+        $("#timer").html(mm+'分'+ss+'秒');
+        time = time-1000;
+        if(mm==0 && ss==0) {
+            $("#myEnd").modal("toggle");
+            clearInterval(se);
+        }
+    }
+
+    function checkTime(i) {
+        if(i<10) {
+            i = "0"+i;
+        }
+        return i;
+    }
+
+    //显示当前时间
+    setInterval(function() {
+        var now = (new Date()).toLocaleString();
+        $('#current-time').text(now);
+    }, 1000);
+
+
+</script>
+</body>
+</html>
